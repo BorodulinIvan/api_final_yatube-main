@@ -18,3 +18,12 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
 class IsAuthenticatedForFollow(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated
+
+
+class IsNotSelfFollow(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method != 'POST':
+            return True
+        following_id = request.data.get('following')
+        return (following_id != str(request.user.id)
+                if request.user.is_authenticated else False)
