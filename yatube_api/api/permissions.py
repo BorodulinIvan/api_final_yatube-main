@@ -4,26 +4,8 @@ from rest_framework import permissions
 class IsAuthorOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         return (
-            request.method in permissions.SAFE_METHODS
-            or request.user.is_authenticated
+            request.method in permissions.SAFE_METHODS or request.user.is_authenticated
         )
 
     def has_object_permission(self, request, view, obj):
-        return (
-            request.method in permissions.SAFE_METHODS
-            or obj.author == request.user
-        )
-
-
-class IsAuthenticatedForFollow(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return request.user.is_authenticated
-
-
-class IsNotSelfFollow(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.method != 'POST':
-            return True
-        following_id = request.data.get('following')
-        return (following_id != str(request.user.id)
-                if request.user.is_authenticated else False)
+        return request.method in permissions.SAFE_METHODS or obj.author == request.user
