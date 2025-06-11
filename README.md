@@ -24,10 +24,11 @@ source venv/Scripts/activate
 Установите зависимости:
 python -m pip install --upgrade pip
 pip install -r requirements.txt
+pip install djoser
+pip install django-filter
 
 
 Создайте и примените миграции:
-python manage.py makemigrations
 python manage.py migrate
 
 
